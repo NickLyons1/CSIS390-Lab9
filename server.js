@@ -31,11 +31,19 @@ app.listen(port, ()=> {
     console.log(`Server is running on port ${port}`);
 })
 
-app.length('/simulatedData', function(req,res){
+app.get('/simulatedData', function(req,res){
     value = new StringBuilder();
     for(let i = 0; i <= simulatedData.length; i++){
         value.append(categories[i])
     }
     res.type("json");
     res.send("All the data in simulatedData is"+ value.toString());
+});
+
+app.post('/addExpense', (req,res)=> {
+  const expense = req.body;
+  if(!expense.place || !expense.date || !expense.amount || !expense.category || !expense.payment){
+    console.log("Error, all expenses required");
+  }
+  simulatedData.push(expense);
 });

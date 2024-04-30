@@ -35,9 +35,13 @@
     "Last Updated: " + currentTime;
 }
 function fetchFinanceData() {
-  
-  updateFinanceTable(simulatedData);
-  updateCurrentTime();
+  let url = 'http://127.0.0.1:3000/public/index.html'
+  const response = fetch(url)
+     .then(statusCheck)
+     .then(updateCurrentTime)
+     .then((response) => response.json())
+     .then(updateFinanceTable);
+
 }
 const tableBody = document.querySelector("table");
 function updateFinanceTable(data) {
@@ -66,6 +70,14 @@ function updateFinanceTable(data) {
     
 
   });
+}
+
+async function statusCheck(res){
+  if(!res.ok){
+    throw new Error(await res.text());
+
+  }
+  return res;
 }
 // Run it
 fetchFinanceData();
